@@ -71,6 +71,7 @@
 #cgs .cgs-add:hover{background:#0B5BD3}
 #cgs .cgs-add.is-done{background:#19A35B}
 #cgs .cgs-oz{width:auto;padding:0 12px;font-size:13px;font-weight:700}
+#cgs .cgs-loading{background:rgba(255,255,255,.06);color:#9FB0C8}
 #cgs .cgs-empty{padding:18px;border-radius:14px;background:rgba(255,176,32,.12);font-size:15px;line-height:1.5}
 #cgs .cgs-actions{display:flex;flex-direction:column;gap:8px;margin-top:auto}
 #cgs .cgs-btn{height:46px;border:0;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
@@ -131,7 +132,7 @@ window.CGS_CONFIG = {
   var OK='<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   var INFO='<svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6"/><path d="M12 7.5h.01"/></svg>';
 
-  var DATA=null, SRC='';
+  var DATA=null, SRC=''; var T0=Date.now();
   function apiUrls(){ var u={}; try{ performance.getEntriesByType('resource').forEach(function(e){ if(/store\.tildaapi\.com\/api\/getproductslist\//.test(e.name)){ var m=e.name.match(/storepartuid=(\d+)/), r=e.name.match(/recid=(\d+)/); if(m) u[m[1]+'|'+(r?r[1]:'')]=e.name; } }); }catch(e){} return u; }
   function fmt(x){ var v=Math.round(parseFloat(x)); return isFinite(v)&&v>0 ? v.toLocaleString('ru-RU') : ''; }
   function load(){
@@ -210,6 +211,8 @@ window.CGS_CONFIG = {
         var link=p.oz||p.url;
         lh+='<div class="cgs-item"><a class="cgs-il" href="'+esc(link)+'"'+(p.oz?' target="_blank" rel="noopener"':'')+'><span class="cgs-thumb" style="background-image:url(\''+esc(p.img)+'\')"></span><span class="cgs-ib"><span class="cgs-in">'+esc(C.strip?p.name.replace(C.strip,''):p.name)+'</span><span class="cgs-ip">'+(p.price?esc(p.price)+' ₽':'покупка на Ozon')+'</span></span></a>'+btn+'</div>';
       });
+    } else if(!DATA&&Date.now()-T0<12000){
+      lh='<div class="cgs-empty cgs-loading">Загружаем товары…</div>';
     } else {
       lh='<div class="cgs-empty">'+esc(C.empty?C.empty(ans):'Сейчас нет в наличии — изготовим под заказ. Нажмите «Получить КП на подбор».')+'</div>';
     }
@@ -236,7 +239,7 @@ window.CGS_CONFIG = {
     }
   });
 
-  function start(){ render(); var last=-1,n=0,iv=setInterval(function(){ load(); if(!DATA){ var k=document.querySelectorAll('.js-product.t-store__card .js-store-prod-name').length; if(k!==last){ last=k; render(); } } if(++n>40) clearInterval(iv); },700); }
+  function start(){ render(); var last=-1,n=0,iv=setInterval(function(){ load(); if(!DATA){ var k=document.querySelectorAll('.js-product.t-store__card .js-store-prod-name').length; if(k!==last||n===18){ last=k; render(); } } if(++n>40) clearInterval(iv); },700); }
   if(window.t_onReady) t_onReady(start); else if(document.readyState!=='loading') start(); else document.addEventListener('DOMContentLoaded',start);
 })();
 </script>
