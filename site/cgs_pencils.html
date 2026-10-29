@@ -1,0 +1,206 @@
+<!-- ГРУППА КОНСУЛ — ПОДБОР (общий движок, стиль как у подбора АБХ). Товары, цены и кнопки берутся из каталога Tilda на этой странице. -->
+<div id="cgs">
+  <div class="cgs-grid">
+    <div class="cgs-left">
+      <div class="cgs-head">
+        <div class="cgs-eyebrow" id="cgs-eyebrow"></div>
+        <h2 class="cgs-title" id="cgs-title"></h2>
+      </div>
+      <div id="cgs-qs" class="cgs-qs"></div>
+    </div>
+    <aside class="cgs-aside">
+      <div class="cgs-q"><span class="cgs-num cgs-num--amber" id="cgs-anum">3</span><span class="cgs-qt cgs-qt--big">Ваш подбор</span></div>
+      <div class="cgs-chips" id="cgs-chips"></div>
+      <div class="cgs-list" id="cgs-list"></div>
+      <div class="cgs-actions">
+        <button type="button" class="cgs-btn cgs-btn--kp" id="cgs-kp">Получить КП на подбор</button>
+        <div class="cgs-note">Для организаций — оплата по счёту, с НДС</div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<style>
+#cgs{font-family:'IBM Plex Sans',Arial,sans-serif;color:#111418;max-width:1120px;margin:0 auto;padding:24px 20px 56px;box-sizing:border-box}
+#cgs *{box-sizing:border-box}
+#cgs button{font-family:inherit}
+#cgs .cgs-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:28px;align-items:stretch;background:#F4F6F9;border-radius:24px;padding:36px}
+#cgs .cgs-left{display:flex;flex-direction:column;gap:18px;min-width:0}
+#cgs .cgs-qs{display:flex;flex-direction:column;gap:18px;flex:1 1 auto}
+#cgs .cgs-qs>.cgs-card:last-child{flex:1 1 auto}
+#cgs .cgs-eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#1677FF;margin-bottom:6px}
+#cgs .cgs-title{margin:0;font-size:30px;line-height:1.15;font-weight:700;color:#111418}
+#cgs .cgs-card{background:#fff;border-radius:18px;padding:22px 24px;display:flex;flex-direction:column;gap:14px}
+#cgs .cgs-q{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+#cgs .cgs-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:#111418;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+#cgs .cgs-num--amber{background:#FFB020;color:#111418}
+#cgs .cgs-qt{font-size:18px;font-weight:700}
+#cgs .cgs-qt--big{font-size:20px;color:#fff}
+#cgs .cgs-hint{margin-left:auto;font-size:13px;color:#6B7482}
+#cgs .cgs-opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#cgs .cgs-opts--3{grid-template-columns:repeat(3,minmax(0,1fr))}
+#cgs .cgs-opts--4{grid-template-columns:repeat(4,minmax(0,1fr))}
+#cgs .cgs-opt{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:14px;cursor:pointer;text-align:left;color:#111418;background:#F7F8FA;border:2px solid transparent;transition:border-color .15s,background .15s;min-width:0;width:100%}
+#cgs .cgs-opt:hover{background:#F0F4FA}
+#cgs .cgs-opt.is-on{background:#F2F7FF;border-color:#1677FF}
+#cgs .cgs-opt[disabled]{opacity:.45;cursor:default}
+#cgs .cgs-dot{flex-shrink:0;width:22px;height:22px;border-radius:50%;border:2px solid #C3CBD6;background:#fff}
+#cgs .cgs-opt.is-on .cgs-dot{border:7px solid #1677FF}
+#cgs .cgs-ob{display:flex;flex-direction:column;gap:4px;align-items:flex-start;min-width:0}
+#cgs .cgs-on{display:flex;align-items:center;gap:10px}
+#cgs .cgs-roman{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:26px;padding:0 8px;border-radius:7px;font-size:14px;font-weight:700;letter-spacing:.04em;background:#E6EAF0;color:#3A4250}
+#cgs .cgs-opt.is-on .cgs-roman{background:#1677FF;color:#fff}
+#cgs .cgs-ot{font-size:17px;font-weight:700}
+#cgs .cgs-os{font-size:14px;color:#3A4250}
+#cgs .cgs-og{font-size:13px;color:#6B7482}
+#cgs .cgs-aside{background:#0F1B2D;color:#fff;border-radius:22px;padding:28px 26px;display:flex;flex-direction:column;gap:16px;min-width:0}
+#cgs .cgs-chips{display:flex;flex-wrap:nowrap;align-items:center;gap:6px}
+#cgs .cgs-chip{padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.1);font-size:12px;font-weight:600;white-space:nowrap;flex-shrink:0}
+#cgs .cgs-chip--grow{flex-shrink:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+#cgs .cgs-info{margin-left:auto;display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 10px 0 7px;border-radius:999px;background:rgba(255,255,255,.1);color:#fff!important;text-decoration:none!important;font-size:12px;font-weight:600;white-space:nowrap;flex-shrink:0}
+#cgs .cgs-info:hover{background:#1677FF}
+#cgs .cgs-list{display:flex;flex-direction:column;gap:6px}
+#cgs .cgs-item{display:flex;align-items:center;gap:12px;padding:4px 6px 4px 4px;border-radius:14px;background:rgba(255,255,255,.06)}
+#cgs .cgs-item:hover{background:rgba(255,255,255,.1)}
+#cgs .cgs-il{flex-grow:1;display:flex;align-items:center;gap:12px;min-width:0;color:#fff!important;text-decoration:none!important}
+#cgs .cgs-thumb{flex-shrink:0;width:40px;height:40px;border-radius:10px;background:#fff center/contain no-repeat}
+#cgs .cgs-ib{flex-grow:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+#cgs .cgs-in{font-size:14px;font-weight:600;line-height:1.3}
+#cgs .cgs-ip{font-size:13px;color:#9FB0C8}
+#cgs .cgs-add{flex-shrink:0;width:38px;height:38px;border:0;border-radius:10px;background:#1677FF;color:#fff!important;cursor:pointer;display:flex;align-items:center;justify-content:center;text-decoration:none!important}
+#cgs .cgs-add:hover{background:#0B5BD3}
+#cgs .cgs-add.is-done{background:#19A35B}
+#cgs .cgs-oz{width:auto;padding:0 12px;font-size:13px;font-weight:700}
+#cgs .cgs-empty{padding:18px;border-radius:14px;background:rgba(255,176,32,.12);font-size:15px;line-height:1.5}
+#cgs .cgs-actions{display:flex;flex-direction:column;gap:8px;margin-top:auto}
+#cgs .cgs-btn{height:50px;border:0;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
+#cgs .cgs-btn--kp{background:#FFB020;color:#111418}
+#cgs .cgs-btn--kp:hover{background:#FFC24D}
+#cgs .cgs-note{font-size:13px;color:#9FB0C8;text-align:center}
+@media (max-width:960px){
+  #cgs .cgs-grid{grid-template-columns:minmax(0,1fr);padding:20px;gap:16px}
+  #cgs .cgs-title{font-size:24px}
+  #cgs .cgs-hint{margin-left:0;width:100%}
+  #cgs .cgs-opts--3,#cgs .cgs-opts--4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #cgs .cgs-actions{margin-top:6px}
+}
+@media (max-width:600px){
+  #cgs{padding:16px 12px 40px}
+  #cgs .cgs-grid{padding:12px;border-radius:18px}
+  #cgs .cgs-card{padding:16px}
+  #cgs .cgs-opts,#cgs .cgs-opts--3,#cgs .cgs-opts--4{grid-template-columns:minmax(0,1fr)}
+  #cgs .cgs-opt{padding:12px;gap:10px}
+}
+</style>
+
+<script>
+window.CGS_CONFIG = {
+  eyebrow:'Подбор карандаша', title:'Выберите вид шлифования — подберём карандаш',
+  questions:[
+    {id:'w', title:'Вид шлифования', def:'round', options:[
+      {v:'round', name:'Круглое наружное', sub:'Правка кругов круглошлифовальных станков', note:'тип 02 и 04'},
+      {v:'centerless', name:'Бесцентровое', sub:'Ведущие и рабочие круги', note:'тип 02'},
+      {v:'flat', name:'Плоское', sub:'Правка кругов плоскошлифовальных станков', note:'тип 02 и 04'},
+      {v:'inner', name:'Внутреннее', sub:'Круги малого диаметра', note:'тип 01'},
+      {v:'profile', name:'Профильная правка', sub:'Точный профиль круга', note:'тип 01'},
+      {v:'thread', name:'Резьбошлифование', sub:'Профиль резьбы на круге', note:'тип 04'}
+    ]}
+  ],
+  T:{round:['02','04'],centerless:['02'],flat:['02','04'],inner:['01'],profile:['01'],thread:['04']},
+  type:function(n){ var m=n.match(/3908-00(\d\d)/); if(!m) return ''; var c=+m[1]; if((c>=51&&c<=55)||(c>=70&&c<=77)) return '01'; if(c>=81&&c<=88) return '02'; if((c>=56&&c<=69)||(c>=78&&c<=80)||(c>=91&&c<=93)) return '04'; return ''; },
+  match:function(n,a){ return this.T[a.w].indexOf(this.type(n))>=0; },
+  sort:function(a,b){ return a<b?-1:1; },
+  chips:function(a){ var W={round:'Круглое наружное',centerless:'Бесцентровое',flat:'Плоское',inner:'Внутреннее',profile:'Профильная правка',thread:'Резьбошлифование'}; return ['Тип '+this.T[a.w].join(' / '), W[a.w]]; },
+  info:function(){ return {url:'https://consul-group.ru/products/almaznye_karandashi/prim', label:'О применении'}; },
+  kp:function(a){ return 'Подбор алмазного карандаша: '+this.chips(a)[1].toLowerCase()+' шлифование, тип '+this.T[a.w].join('/')+'.'; }
+};
+(function(){
+  var C=window.CGS_CONFIG; var root=document.getElementById('cgs'); if(!root||!C) return;
+  var ans={}; C.questions.forEach(function(q){ ans[q.id]=q.def; });
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function norm(s){return String(s||'').replace(/\s+/g,' ').replace(/[×x]/g,'х').replace(/(\d),(\d)/g,'$1.$2').replace(/12A2/g,'12А2').replace(/1А1R/g,'1A1R').replace(/^РК/,'PK').trim();}
+  $('cgs-eyebrow').textContent=C.eyebrow; $('cgs-title').textContent=C.title;
+  var CART='<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11h11.2L21 8H6.2"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>';
+  var OK='<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  var INFO='<svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6"/><path d="M12 7.5h.01"/></svg>';
+
+  function catalog(){
+    var out=[],seen={},cards=document.querySelectorAll('.js-product.t-store__card');
+    for(var i=0;i<cards.length;i++){
+      var c=cards[i]; if(root.contains(c)) continue;
+      var ne=c.querySelector('.js-store-prod-name'); if(!ne) continue;
+      var name=ne.textContent.replace(/\s+/g,' ').trim();
+      var uid=c.getAttribute('data-product-uid')||name; if(seen[uid]) continue; seen[uid]=1;
+      var pe=c.querySelector('.js-product-price'); var price=pe?pe.textContent.replace(/\s+/g,' ').trim():'';
+      var hasPrice=parseFloat(price.replace(/[^\d.,]/g,'').replace(',','.'))>0;
+      var url=c.getAttribute('data-product-url')||'#';
+      var oz=/ozon\.ru/.test(url)?url:'';
+      var b2=c.querySelector('.js-store-prod-btn2'); if(!oz&&b2&&/ozon\.ru/.test(b2.getAttribute('href')||'')) oz=b2.getAttribute('href');
+      if(!hasPrice&&!oz) continue;
+      out.push({name:name,n:norm(name),price:hasPrice?price:'',url:oz?'':url,oz:oz,img:c.getAttribute('data-product-img')||'',buy:b2,card:c});
+    }
+    return out;
+  }
+  function visibleQs(){ return C.questions.filter(function(q){ return !q.show || q.show(ans); }); }
+  function opts(q,cat){ return typeof q.options==='function'? q.options(ans,cat) : q.options; }
+
+  function render(){
+    var cat=catalog(); var qs=visibleQs(); var html='';
+    qs.forEach(function(q,qi){
+      var os=opts(q,cat);
+      if(!os.some(function(o){return o.v===ans[q.id];}) && os.length) ans[q.id]=os[0].v;
+      html+='<div class="cgs-card"><div class="cgs-q"><span class="cgs-num">'+(qi+1)+'</span><span class="cgs-qt">'+esc(q.title)+'</span>'+(q.hint?'<span class="cgs-hint">'+esc(q.hint)+'</span>':'')+'</div><div class="cgs-opts'+(q.cols?' cgs-opts--'+q.cols:'')+'">';
+      os.forEach(function(o){
+        var on=ans[q.id]===o.v;
+        html+='<button type="button" class="cgs-opt'+(on?' is-on':'')+'" data-q="'+q.id+'" data-v="'+esc(o.v)+'" aria-pressed="'+on+'"><span class="cgs-dot"></span><span class="cgs-ob"><span class="cgs-on">'+(o.roman?'<span class="cgs-roman">'+o.roman+'</span>':'')+'<span class="cgs-ot">'+esc(o.name)+'</span></span>'+(o.sub?'<span class="cgs-os">'+esc(o.sub)+'</span>':'')+(o.note?'<span class="cgs-og">'+esc(o.note)+'</span>':'')+'</span></button>';
+      });
+      html+='</div></div>';
+    });
+    $('cgs-qs').innerHTML=html;
+    $('cgs-anum').textContent=String(qs.length+1);
+
+    var items=cat.filter(function(p){ return C.match(p.n,ans,p); });
+    if(C.sort) items.sort(function(a,b){ return C.sort(a.n,b.n,ans); });
+    var chips=C.chips(ans).map(function(t,i){ return '<span class="cgs-chip'+(i===1?' cgs-chip--grow':'')+'">'+esc(t)+'</span>'; }).join('');
+    chips+='<span class="cgs-chip">'+items.length+' шт.</span>';
+    var info=C.info?C.info(ans):null;
+    if(info) chips+='<a class="cgs-info" href="'+esc(info.url)+'"'+(/^https?:/.test(info.url)?' target="_blank" rel="noopener"':'')+'>'+INFO+'<span>'+esc(info.label||'Об этапе')+'</span></a>';
+    $('cgs-chips').innerHTML=chips;
+    var lh='';
+    if(items.length){
+      items.forEach(function(p,i){
+        var btn=p.oz?'<a class="cgs-add cgs-oz" href="'+esc(p.oz)+'" target="_blank" rel="noopener">Ozon</a>':'<button type="button" class="cgs-add" data-i="'+i+'" aria-label="В корзину">'+CART+'</button>';
+        var link=p.oz||p.url;
+        lh+='<div class="cgs-item"><a class="cgs-il" href="'+esc(link)+'"'+(p.oz?' target="_blank" rel="noopener"':'')+'><span class="cgs-thumb" style="background-image:url(\''+esc(p.img)+'\')"></span><span class="cgs-ib"><span class="cgs-in">'+esc(p.name)+'</span><span class="cgs-ip">'+(p.price?esc(p.price)+' ₽':'покупка на Ozon')+'</span></span></a>'+btn+'</div>';
+      });
+    } else {
+      lh='<div class="cgs-empty">'+esc(C.empty?C.empty(ans):'Сейчас нет в наличии — изготовим под заказ. Нажмите «Получить КП на подбор».')+'</div>';
+    }
+    $('cgs-list').innerHTML=lh;
+    root._items=items;
+  }
+
+  root.addEventListener('click',function(e){
+    var t=e.target.closest('[data-q],.cgs-add[data-i],#cgs-kp'); if(!t) return;
+    if(t.hasAttribute('data-q')){ ans[t.getAttribute('data-q')]=t.getAttribute('data-v'); render(); return; }
+    if(t.hasAttribute('data-i')){
+      e.preventDefault();
+      var p=(root._items||[])[+t.getAttribute('data-i')];
+      if(p&&p.buy){ p.buy.click(); t.classList.add('is-done'); t.innerHTML=OK; } else if(p) location.href=p.url;
+      return;
+    }
+    if(t.id==='cgs-kp'){
+      var f=document.getElementById('rec812563989');
+      if(f){
+        var ta=f.querySelector('textarea'); if(ta&&!ta.value) ta.value=C.kp(ans);
+        f.scrollIntoView({behavior:'smooth',block:'start'});
+        setTimeout(function(){var n=f.querySelector('input[name="Name"]'); if(n) n.focus({preventScroll:true});},800);
+      }
+    }
+  });
+
+  function start(){ render(); var last=-1,n=0,iv=setInterval(function(){ var k=document.querySelectorAll('.js-product.t-store__card .js-store-prod-name').length; if(k!==last){ last=k; render(); } if(++n>60) clearInterval(iv); },600); }
+  if(window.t_onReady) t_onReady(start); else if(document.readyState!=='loading') start(); else document.addEventListener('DOMContentLoaded',start);
+})();
+</script>
