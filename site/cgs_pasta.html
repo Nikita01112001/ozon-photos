@@ -129,7 +129,30 @@ window.CGS_CONFIG = {
   var OK='<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   var INFO='<svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6"/><path d="M12 7.5h.01"/></svg>';
 
-  function catalog(){
+  var DATA=null, SRC='';
+  function apiUrls(){ var u={}; try{ performance.getEntriesByType('resource').forEach(function(e){ if(/store\.tildaapi\.com\/api\/getproductslist\//.test(e.name)){ var m=e.name.match(/storepartuid=(\d+)/), r=e.name.match(/recid=(\d+)/); if(m) u[m[1]+'|'+(r?r[1]:'')]=e.name; } }); }catch(e){} return u; }
+  function fmt(x){ var v=Math.round(parseFloat(x)); return isFinite(v)&&v>0 ? v.toLocaleString('ru-RU') : ''; }
+  function load(){
+    var u=apiUrls(), keys=Object.keys(u).sort(), sig=keys.join(',');
+    if(!keys.length||sig===SRC) return; SRC=sig;
+    Promise.all(keys.map(function(k){ var url=u[k].replace(/size=\d+/,'size=500').replace(/slice=\d+/,'slice=1').replace(/c=\d+/,'c='+Date.now()); var recid=(k.split('|')[1]||'');
+      return fetch(url).then(function(r){return r.json();}).then(function(j){ return (j.products||[]).map(function(p){ p._recid=recid; return p; }); }).catch(function(){ return []; }); }))
+    .then(function(lists){
+      var out=[],seen={};
+      lists.forEach(function(l){ l.forEach(function(p){
+        if(seen[p.uid]) return; seen[p.uid]=1;
+        var eds=p.editions||[], prices=eds.map(function(e){return parseFloat(e.price);}).filter(function(v){return v>0;});
+        var pr=parseFloat(p.price)>0?parseFloat(p.price):(prices.length?Math.min.apply(null,prices):0);
+        var multi=eds.length>1, from=multi&&prices.length&&Math.max.apply(null,prices)>pr;
+        var oz=/ozon\.ru/.test(p.buttonlink||'')?p.buttonlink:(/ozon\.ru/.test(p.url||'')?p.url:'');
+        if(!(pr>0)&&!oz) return;
+        var img=''; try{ img=(JSON.parse(p.gallery)||[])[0].img; }catch(e){}
+        out.push({uid:String(p.uid),name:p.title,n:norm(p.title),price:pr>0?(from?'от ':'')+fmt(pr):'',pnum:pr,url:oz?'':(p.url||'#'),oz:oz,img:img,multi:multi,sku:(eds[0]&&eds[0].sku)||p.sku||'',inv:(eds[0]&&eds[0].quantity)||p.quantity||'',recid:p._recid});
+      }); });
+      DATA=out; render();
+    });
+  }
+  function domCatalog(){
     var out=[],seen={},cards=document.querySelectorAll('.js-product.t-store__card');
     for(var i=0;i<cards.length;i++){
       var c=cards[i]; if(root.contains(c)) continue;
@@ -137,14 +160,21 @@ window.CGS_CONFIG = {
       var name=ne.textContent.replace(/\s+/g,' ').trim();
       var uid=c.getAttribute('data-product-uid')||name; if(seen[uid]) continue; seen[uid]=1;
       var pe=c.querySelector('.js-product-price'); var price=pe?pe.textContent.replace(/\s+/g,' ').trim():'';
-      var hasPrice=parseFloat(price.replace(/[^\d.,]/g,'').replace(',','.'))>0;
-      var url=c.getAttribute('data-product-url')||'#';
-      var oz=/ozon\.ru/.test(url)?url:'';
-      var b2=c.querySelector('.js-store-prod-btn2'); if(!oz&&b2&&/ozon\.ru/.test(b2.getAttribute('href')||'')) oz=b2.getAttribute('href');
-      if(!hasPrice&&!oz) continue;
-      out.push({name:name,n:norm(name),price:hasPrice?price:'',url:oz?'':url,oz:oz,img:c.getAttribute('data-product-img')||'',buy:b2,card:c});
+      var url=c.getAttribute('data-product-url')||'#'; var oz=/ozon\.ru/.test(url)?url:'';
+      if(!(parseFloat(price.replace(/[^\d.,]/g,'').replace(',','.'))>0)&&!oz) continue;
+      out.push({uid:uid,name:name,n:norm(name),price:price,url:oz?'':url,oz:oz,img:c.getAttribute('data-product-img')||''});
     }
     return out;
+  }
+  function catalog(){ return DATA||domCatalog(); }
+  function addToCart(p){
+    var card=document.querySelector('.js-product.t-store__card[data-product-uid="'+p.uid+'"]');
+    var b2=card&&!root.contains(card)?card.querySelector('.js-store-prod-btn2'):null;
+    if(b2&&(b2.getAttribute('href')||'')==='#order'){ b2.click(); return true; }
+    if(typeof window.tcart__addProduct==='function'){
+      try{ tcart__addProduct({uid:p.uid,lid:p.uid,recid:p.recid,name:p.name,price:p.pnum,amount:p.pnum,quantity:1,img:p.img,sku:p.sku,url:p.url,inv:p.inv}); return true; }catch(e){}
+    }
+    location.href=p.url; return false;
   }
   function visibleQs(){ return C.questions.filter(function(q){ return !q.show || q.show(ans); }); }
   function opts(q,cat){ return typeof q.options==='function'? q.options(ans,cat) : q.options; }
@@ -174,7 +204,7 @@ window.CGS_CONFIG = {
     var lh='';
     if(items.length){
       items.forEach(function(p,i){
-        var btn=p.oz?'<a class="cgs-add cgs-oz" href="'+esc(p.oz)+'" target="_blank" rel="noopener">Ozon</a>':'<button type="button" class="cgs-add" data-i="'+i+'" aria-label="В корзину">'+CART+'</button>';
+        var btn=p.oz?'<a class="cgs-add cgs-oz" href="'+esc(p.oz)+'" target="_blank" rel="noopener">Ozon</a>':(p.multi?'<a class="cgs-add" href="'+esc(p.url)+'" aria-label="Выбрать фасовку" title="Выбрать фасовку">'+CART+'</a>':'<button type="button" class="cgs-add" data-i="'+i+'" aria-label="В корзину">'+CART+'</button>');
         var link=p.oz||p.url;
         lh+='<div class="cgs-item"><a class="cgs-il" href="'+esc(link)+'"'+(p.oz?' target="_blank" rel="noopener"':'')+'><span class="cgs-thumb" style="background-image:url(\''+esc(p.img)+'\')"></span><span class="cgs-ib"><span class="cgs-in">'+esc(p.name)+'</span><span class="cgs-ip">'+(p.price?esc(p.price)+' ₽':'покупка на Ozon')+'</span></span></a>'+btn+'</div>';
       });
@@ -191,7 +221,7 @@ window.CGS_CONFIG = {
     if(t.hasAttribute('data-i')){
       e.preventDefault();
       var p=(root._items||[])[+t.getAttribute('data-i')];
-      if(p&&p.buy){ p.buy.click(); t.classList.add('is-done'); t.innerHTML=OK; } else if(p) location.href=p.url;
+      if(p&&addToCart(p)){ t.classList.add('is-done'); t.innerHTML=OK; }
       return;
     }
     if(t.id==='cgs-kp'){
@@ -204,7 +234,7 @@ window.CGS_CONFIG = {
     }
   });
 
-  function start(){ render(); var last=-1,n=0,iv=setInterval(function(){ var k=document.querySelectorAll('.js-product.t-store__card .js-store-prod-name').length; if(k!==last){ last=k; render(); } if(++n>60) clearInterval(iv); },600); }
+  function start(){ render(); var last=-1,n=0,iv=setInterval(function(){ load(); if(!DATA){ var k=document.querySelectorAll('.js-product.t-store__card .js-store-prod-name').length; if(k!==last){ last=k; render(); } } if(++n>40) clearInterval(iv); },700); }
   if(window.t_onReady) t_onReady(start); else if(document.readyState!=='loading') start(); else document.addEventListener('DOMContentLoaded',start);
 })();
 </script>
