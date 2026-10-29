@@ -77,6 +77,11 @@
 #cgs .cgs-btn--kp{background:#FFB020;color:#111418}
 #cgs .cgs-btn--kp:hover{background:#FFC24D}
 #cgs .cgs-note{font-size:13px;color:#9FB0C8;text-align:center}
+#cgs .cgs-opts--4 .cgs-opt{padding:12px 12px;gap:10px}
+#cgs .cgs-opts--4 .cgs-dot{width:18px;height:18px}
+#cgs .cgs-opts--4 .cgs-opt.is-on .cgs-dot{border-width:6px}
+#cgs .cgs-ot{white-space:nowrap}
+#cgs .cgs-opts--4 .cgs-ot{font-size:16px}
 @media (max-width:960px){
   #cgs .cgs-grid{grid-template-columns:minmax(0,1fr);padding:20px;gap:16px}
   #cgs .cgs-title{font-size:24px}
@@ -95,7 +100,7 @@
 
 <script>
 window.CGS_CONFIG = {
-  eyebrow:'Подбор алмазного круга', title:'Ответьте на 3 вопроса — остальное подберём',
+  eyebrow:'Подбор алмазного круга', strip:/^Круг алмазный (отрезной )?/, title:'Ответьте на 3 вопроса — остальное подберём',
   questions:[
     {id:'f', title:'Форма круга', cols:4, def:'12А2-45', options:[
       {v:'12А2-45', name:'12А2-45', sub:'Чашка'},
@@ -208,7 +213,7 @@ window.CGS_CONFIG = {
       items.forEach(function(p,i){
         var btn=p.oz?'<a class="cgs-add cgs-oz" href="'+esc(p.oz)+'" target="_blank" rel="noopener">Ozon</a>':(p.multi?'<a class="cgs-add" href="'+esc(p.url)+'" aria-label="Выбрать фасовку" title="Выбрать фасовку">'+CART+'</a>':'<button type="button" class="cgs-add" data-i="'+i+'" aria-label="В корзину">'+CART+'</button>');
         var link=p.oz||p.url;
-        lh+='<div class="cgs-item"><a class="cgs-il" href="'+esc(link)+'"'+(p.oz?' target="_blank" rel="noopener"':'')+'><span class="cgs-thumb" style="background-image:url(\''+esc(p.img)+'\')"></span><span class="cgs-ib"><span class="cgs-in">'+esc(p.name)+'</span><span class="cgs-ip">'+(p.price?esc(p.price)+' ₽':'покупка на Ozon')+'</span></span></a>'+btn+'</div>';
+        lh+='<div class="cgs-item"><a class="cgs-il" href="'+esc(link)+'"'+(p.oz?' target="_blank" rel="noopener"':'')+'><span class="cgs-thumb" style="background-image:url(\''+esc(p.img)+'\')"></span><span class="cgs-ib"><span class="cgs-in">'+esc(C.strip?p.name.replace(C.strip,''):p.name)+'</span><span class="cgs-ip">'+(p.price?esc(p.price)+' ₽':'покупка на Ozon')+'</span></span></a>'+btn+'</div>';
       });
     } else {
       lh='<div class="cgs-empty">'+esc(C.empty?C.empty(ans):'Сейчас нет в наличии — изготовим под заказ. Нажмите «Получить КП на подбор».')+'</div>';
