@@ -21,39 +21,39 @@
 </div>
 
 <style>
-#cgs{font-family:'IBM Plex Sans',Arial,sans-serif;color:#111418;max-width:1120px;margin:0 auto;padding:24px 20px 56px;box-sizing:border-box}
+#cgs{font-family:'IBM Plex Sans',Arial,sans-serif;color:#111418;max-width:1240px;margin:0 auto;padding:12px 20px 40px;box-sizing:border-box}
 #cgs *{box-sizing:border-box}
 #cgs button{font-family:inherit}
-#cgs .cgs-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:28px;align-items:stretch;background:#F4F6F9;border-radius:24px;padding:36px}
-#cgs .cgs-left{display:flex;flex-direction:column;gap:18px;min-width:0}
-#cgs .cgs-qs{display:flex;flex-direction:column;gap:18px;flex:1 1 auto}
+#cgs .cgs-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:22px;align-items:stretch;background:#F4F6F9;border-radius:22px;padding:22px 24px}
+#cgs .cgs-left{display:flex;flex-direction:column;gap:12px;min-width:0}
+#cgs .cgs-qs{display:flex;flex-direction:column;gap:12px;flex:1 1 auto}
 #cgs .cgs-qs>.cgs-card:last-child{flex:1 1 auto}
-#cgs .cgs-eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#1677FF;margin-bottom:6px}
-#cgs .cgs-title{margin:0;font-size:30px;line-height:1.15;font-weight:700;color:#111418;text-transform:none!important;letter-spacing:0!important;font-family:inherit!important}
-#cgs .cgs-card{background:#fff;border-radius:18px;padding:22px 24px;display:flex;flex-direction:column;gap:14px}
+#cgs .cgs-eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#1677FF;margin-bottom:2px}
+#cgs .cgs-title{margin:0;font-size:24px;line-height:1.2;font-weight:700;color:#111418;text-transform:none!important;letter-spacing:0!important;font-family:inherit!important}
+#cgs .cgs-card{background:#fff;border-radius:16px;padding:14px 18px;display:flex;flex-direction:column;gap:10px}
 #cgs .cgs-q{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-#cgs .cgs-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:#111418;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+#cgs .cgs-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:#111418;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
 #cgs .cgs-num--amber{background:#FFB020;color:#111418}
-#cgs .cgs-qt{font-size:18px;font-weight:700}
+#cgs .cgs-qt{font-size:17px;font-weight:700}
 #cgs .cgs-qt--big{font-size:20px;color:#fff}
 #cgs .cgs-hint{margin-left:auto;font-size:13px;color:#6B7482}
-#cgs .cgs-opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#cgs .cgs-opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 #cgs .cgs-opts--3{grid-template-columns:repeat(3,minmax(0,1fr))}
 #cgs .cgs-opts--4{grid-template-columns:repeat(4,minmax(0,1fr))}
-#cgs .cgs-opt{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:14px;cursor:pointer;text-align:left;color:#111418;background:#F7F8FA;border:2px solid transparent;transition:border-color .15s,background .15s;min-width:0;width:100%}
+#cgs .cgs-opt{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;text-align:left;color:#111418;background:#F7F8FA;border:2px solid transparent;transition:border-color .15s,background .15s;min-width:0;width:100%}
 #cgs .cgs-opt:hover{background:#F0F4FA}
 #cgs .cgs-opt.is-on{background:#F2F7FF;border-color:#1677FF}
 #cgs .cgs-opt[disabled]{opacity:.45;cursor:default}
-#cgs .cgs-dot{flex-shrink:0;width:22px;height:22px;border-radius:50%;border:2px solid #C3CBD6;background:#fff}
-#cgs .cgs-opt.is-on .cgs-dot{border:7px solid #1677FF}
-#cgs .cgs-ob{display:flex;flex-direction:column;gap:4px;align-items:flex-start;min-width:0}
-#cgs .cgs-on{display:flex;align-items:center;gap:10px}
-#cgs .cgs-roman{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:26px;padding:0 8px;border-radius:7px;font-size:14px;font-weight:700;letter-spacing:.04em;background:#E6EAF0;color:#3A4250}
+#cgs .cgs-dot{flex-shrink:0;width:18px;height:18px;border-radius:50%;border:2px solid #C3CBD6;background:#fff}
+#cgs .cgs-opt.is-on .cgs-dot{border:6px solid #1677FF}
+#cgs .cgs-ob{display:flex;flex-direction:column;gap:2px;align-items:flex-start;min-width:0}
+#cgs .cgs-on{display:flex;align-items:center;gap:8px}
+#cgs .cgs-roman{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:22px;padding:0 6px;border-radius:6px;font-size:13px;font-weight:700;letter-spacing:.04em;background:#E6EAF0;color:#3A4250}
 #cgs .cgs-opt.is-on .cgs-roman{background:#1677FF;color:#fff}
-#cgs .cgs-ot{font-size:17px;font-weight:700;line-height:1.25}
-#cgs .cgs-os{font-size:14px;color:#3A4250}
-#cgs .cgs-og{font-size:13px;color:#6B7482}
-#cgs .cgs-aside{background:#0F1B2D;color:#fff;border-radius:22px;padding:28px 26px;display:flex;flex-direction:column;gap:16px;min-width:0}
+#cgs .cgs-ot{font-size:15px;font-weight:700;line-height:1.2}
+#cgs .cgs-os{font-size:13px;line-height:1.3;color:#3A4250}
+#cgs .cgs-og{font-size:12px;line-height:1.3;color:#6B7482}
+#cgs .cgs-aside{background:#0F1B2D;color:#fff;border-radius:18px;padding:20px 20px;display:flex;flex-direction:column;gap:12px;min-width:0}
 #cgs .cgs-chips{display:flex;flex-wrap:nowrap;align-items:center;gap:6px}
 #cgs .cgs-chip{padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.1);font-size:12px;font-weight:600;white-space:nowrap;flex-shrink:0}
 #cgs .cgs-chip--grow{flex-shrink:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
@@ -73,12 +73,15 @@
 #cgs .cgs-oz{width:auto;padding:0 12px;font-size:13px;font-weight:700}
 #cgs .cgs-empty{padding:18px;border-radius:14px;background:rgba(255,176,32,.12);font-size:15px;line-height:1.5}
 #cgs .cgs-actions{display:flex;flex-direction:column;gap:8px;margin-top:auto}
-#cgs .cgs-btn{height:50px;border:0;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
+#cgs .cgs-btn{height:46px;border:0;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
 #cgs .cgs-btn--kp{background:#FFB020;color:#111418}
 #cgs .cgs-btn--kp:hover{background:#FFC24D}
 #cgs .cgs-note{font-size:13px;color:#9FB0C8;text-align:center}
-#cgs .cgs-opts--4 .cgs-opt{padding:12px 12px;gap:10px}
-#cgs .cgs-opts--4 .cgs-dot{width:18px;height:18px}
+#cgs .cgs-opts--4 .cgs-opt{padding:10px 10px;gap:8px}
+#cgs .cgs-opts--4 .cgs-dot{width:16px;height:16px}
+#cgs .cgs-opts--3 .cgs-opt{padding:10px 10px;gap:8px}
+#cgs .cgs-opts--3 .cgs-dot{width:16px;height:16px}
+#cgs .cgs-opts--3 .cgs-opt.is-on .cgs-dot{border-width:5px}
 #cgs .cgs-opts--4 .cgs-opt.is-on .cgs-dot{border-width:6px}
 #cgs .cgs-opts--4 .cgs-ot{white-space:nowrap}
 #cgs .cgs-opts--4 .cgs-ot{font-size:16px}
@@ -107,7 +110,7 @@ window.CGS_CONFIG = {
       {v:'НВМ', name:'НВМ', sub:'Стекло, камень, керамика', note:'смывается водой'},
       {v:'ПОМ', name:'ПОМ', sub:'Твёрдые сплавы, быстрый съём', note:'повышенная концентрация алмаза'}
     ]},
-    {id:'s', title:'Этап обработки', hint:'этапы идут по порядку: I → II → III → IV → V → VI', def:'1', options:[
+    {id:'s', title:'Этап обработки', hint:'этапы идут по порядку: I → II → III → IV → V → VI', cols:3, def:'1', options:[
       {v:'1', roman:'I', name:'Грубая шлифовка', sub:'Снять дефекты и глубокие риски', note:'зерно 80/63 · 60/40 · 40/28'},
       {v:'2', roman:'II', name:'Предварительная', sub:'Выровнять поверхность', note:'зерно 28/20 · 20/14'},
       {v:'3', roman:'III', name:'Тонкая шлифовка', sub:'Однородная поверхность', note:'зерно 14/10 · 10/7 · 7/5'},
