@@ -29,7 +29,7 @@
 #cgs .cgs-qs{display:flex;flex-direction:column;gap:18px;flex:1 1 auto}
 #cgs .cgs-qs>.cgs-card:last-child{flex:1 1 auto}
 #cgs .cgs-eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#1677FF;margin-bottom:6px}
-#cgs .cgs-title{margin:0;font-size:30px;line-height:1.15;font-weight:700;color:#111418}
+#cgs .cgs-title{margin:0;font-size:30px;line-height:1.15;font-weight:700;color:#111418;text-transform:none!important;letter-spacing:0!important;font-family:inherit!important}
 #cgs .cgs-card{background:#fff;border-radius:18px;padding:22px 24px;display:flex;flex-direction:column;gap:14px}
 #cgs .cgs-q{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 #cgs .cgs-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:#111418;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
@@ -50,7 +50,7 @@
 #cgs .cgs-on{display:flex;align-items:center;gap:10px}
 #cgs .cgs-roman{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:26px;padding:0 8px;border-radius:7px;font-size:14px;font-weight:700;letter-spacing:.04em;background:#E6EAF0;color:#3A4250}
 #cgs .cgs-opt.is-on .cgs-roman{background:#1677FF;color:#fff}
-#cgs .cgs-ot{font-size:17px;font-weight:700}
+#cgs .cgs-ot{font-size:17px;font-weight:700;line-height:1.25}
 #cgs .cgs-os{font-size:14px;color:#3A4250}
 #cgs .cgs-og{font-size:13px;color:#6B7482}
 #cgs .cgs-aside{background:#0F1B2D;color:#fff;border-radius:22px;padding:28px 26px;display:flex;flex-direction:column;gap:16px;min-width:0}
@@ -80,7 +80,7 @@
 #cgs .cgs-opts--4 .cgs-opt{padding:12px 12px;gap:10px}
 #cgs .cgs-opts--4 .cgs-dot{width:18px;height:18px}
 #cgs .cgs-opts--4 .cgs-opt.is-on .cgs-dot{border-width:6px}
-#cgs .cgs-ot{white-space:nowrap}
+#cgs .cgs-opts--4 .cgs-ot{white-space:nowrap}
 #cgs .cgs-opts--4 .cgs-ot{font-size:16px}
 @media (max-width:960px){
   #cgs .cgs-grid{grid-template-columns:minmax(0,1fr);padding:20px;gap:16px}
@@ -127,7 +127,7 @@ window.CGS_CONFIG = {
 };
 (function(){
   var C=window.CGS_CONFIG; var root=document.getElementById('cgs'); if(!root||!C) return;
-  var ans={}; C.questions.forEach(function(q){ ans[q.id]=q.def; });
+  var ans={}, SK='cgs:'+location.pathname; C.questions.forEach(function(q){ ans[q.id]=q.def; }); try{ var sv=JSON.parse(sessionStorage.getItem(SK)||'null'); if(sv) for(var k in sv) if(k in ans) ans[k]=sv[k]; }catch(e){}
   function $(id){return document.getElementById(id);}
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function norm(s){return String(s||'').replace(/\s+/g,' ').replace(/[×x]/g,'х').replace(/(\d),(\d)/g,'$1.$2').replace(/12A2/g,'12А2').replace(/1А1R/g,'1A1R').replace(/^РК/,'PK').trim();}
@@ -153,7 +153,7 @@ window.CGS_CONFIG = {
         var multi=eds.length>1, from=multi&&prices.length&&Math.max.apply(null,prices)>pr;
         var oz=/ozon\.ru/.test(p.buttonlink||'')?p.buttonlink:(/ozon\.ru/.test(p.url||'')?p.url:'');
         if(!(pr>0)&&!oz) return;
-        var img=''; try{ img=(JSON.parse(p.gallery)||[])[0].img; }catch(e){}
+        var img=''; try{ img=(JSON.parse(p.gallery)||[])[0].img; img=img.replace('://static.tildacdn.com/','://thb.tildacdn.com/').replace(/\/([^\/]+)$/,'/-/resize/120x/$1'); }catch(e){}
         out.push({uid:String(p.uid),name:p.title,n:norm(p.title),price:pr>0?(from?'от ':'')+fmt(pr):'',pnum:pr,url:oz?'':(p.url||'#'),oz:oz,img:img,multi:multi,sku:(eds[0]&&eds[0].sku)||p.sku||'',inv:(eds[0]&&eds[0].quantity)||p.quantity||'',recid:p._recid});
       }); });
       DATA=out; render();
@@ -224,7 +224,7 @@ window.CGS_CONFIG = {
 
   root.addEventListener('click',function(e){
     var t=e.target.closest('[data-q],.cgs-add[data-i],#cgs-kp'); if(!t) return;
-    if(t.hasAttribute('data-q')){ ans[t.getAttribute('data-q')]=t.getAttribute('data-v'); render(); return; }
+    if(t.hasAttribute('data-q')){ ans[t.getAttribute('data-q')]=t.getAttribute('data-v'); try{ sessionStorage.setItem(SK,JSON.stringify(ans)); }catch(e){} render(); return; }
     if(t.hasAttribute('data-i')){
       e.preventDefault();
       var p=(root._items||[])[+t.getAttribute('data-i')];
