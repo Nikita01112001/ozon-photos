@@ -98,7 +98,7 @@
 #cgl .st-num span{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
 #cgl .stage h2{font-size:34px;line-height:1.1;font-weight:700}
 #cgl .st-tag{font-size:18px;color:#3A4250;margin:8px 0 18px}
-#cgl .st-img{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:16/10;background:#222 center/cover no-repeat;margin-bottom:18px}
+#cgl .st-img{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:2/1;background:#222 center/cover no-repeat;margin-bottom:18px}
 #cgl .st-img span{position:absolute;top:10px;padding:3px 9px;border-radius:999px;background:rgba(15,27,45,.72);color:#fff;font-size:12px;font-weight:600}
 #cgl .st-img .a{left:10px}#cgl .st-img .b{right:10px}
 #cgl .st-when{margin:0 0 16px;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
@@ -131,7 +131,8 @@
 #cgl .ws button{height:28px;padding:0 10px;border-radius:8px;border:1.5px solid var(--line);background:#fff;font-size:13px;font-weight:600;color:#3A4250;cursor:pointer}
 #cgl .ws button.on{border-color:var(--blue);background:#F2F7FF;color:var(--ink)}
 #cgl .it-r{flex-shrink:0;display:flex;align-items:center;gap:12px}
-#cgl .pr{font-size:17px;font-weight:700;white-space:nowrap;text-align:right;min-width:78px}
+#cgl .pr{flex-shrink:0;font-size:17px;font-weight:700;white-space:nowrap;text-align:right;min-width:78px}
+#cgl .add,#cgl .set .it-img{flex-shrink:0}
 #cgl .pr s{display:block;font-size:12px;font-weight:400;color:#9AA3B0}
 #cgl .add{height:40px;padding:0 14px;border:0;border-radius:10px;background:var(--blue);color:#fff!important;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;text-decoration:none!important}
 #cgl .add:hover{background:#0B5BD3}
@@ -214,7 +215,10 @@
   #cgl .cta .btn{flex:1 1 100%}
   #cgl .hv{gap:6px}
   #cgl .hv b{font-size:11px;left:7px;bottom:6px}
-  #cgl .bar-in{flex-direction:column;align-items:stretch;gap:6px;padding:8px 0}
+  #cgl .bar-in{flex-direction:column;align-items:stretch;gap:6px;padding:8px 16px}
+  #cgl .pk span{display:none}
+  #cgl .pk{padding:14px 16px}
+  #cgl .st-img{aspect-ratio:5/2}
   #cgl .seg{justify-content:space-between}
   #cgl .seg-l{display:none}
   #cgl .seg button{flex:1 1 auto}
@@ -250,10 +254,13 @@
   short:function(it){ return it.title.replace(/^Алмазная паста\s*/,'').replace(/^АСМ\s*/,'АСМ '); },
   itemSort:function(a,b){ return 0; },
   setGrits:function(s){ var g=(s.title.match(/\d+(?:[.,]\d+)?\/\d+/g)||[]).map(function(x){return x.replace(',','.');}); if(!g.length&&/^Набор алмазных паст АСМ НОМ$/.test(s.title.trim())) g=['60/40','28/20','14/10','7/5','3/2','1/0']; return g; },
-  setWeight:function(s){ var m=s.title.match(/(\d)\s*[×x*]\s*(\d+)\s*г/); if(m) return {n:+m[1],w:m[2]+' г'}; var g=this.setGrits(s); return {n:g.length,w:/ПОМ/.test(s.title)?'40 г':'40 г'}; },
+  setWeight:function(s){ var m=s.title.match(/(\d)\s*[×x*]\s*(\d+)\s*г/); if(m) return {n:+m[1],w:m[2]+' г',sure:1}; if(/^Набор алмазных паст АСМ НОМ$/.test(s.title.trim())) return {n:6,w:'40 г',sure:1}; return null; },
   setInfo:function(s,data){
     var g=this.setGrits(s); if(!g.length) return {}; var w=this.setWeight(s), t=(s.title.match(/НОМ|НВМ|ПОМ/)||[''])[0];
-    var line=w.n+' × '+w.w+' · '+g.map(function(x){return x.replace('.',',');}).join('; ');
+    var gl=g.map(function(x){return x.replace('.',',');}).join('; ');
+    if(/брикет/i.test(s.title)) return {line:g.length+' брикетов · '+gl};
+    if(!w) return {line:g.length+' зернистости · '+gl};
+    var line=w.n+' × '+w.w+' · '+gl;
     if(!t) return {line:line};
     var sum=0, ok=true;
     g.forEach(function(x){ var it=data.filter(function(p){return !p.isSet&&p.grit===x&&p.f===t;})[0]; var e=it&&it.eds.filter(function(e){return e.w===w.w;})[0]; if(e) sum+=e.price; else ok=false; });
