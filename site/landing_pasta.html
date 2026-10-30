@@ -61,21 +61,20 @@
 #cgl .hv a:hover{outline:2px solid var(--blue);outline-offset:2px}
 
 /* STICKY BAR */
-#cgl .bar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.4) blur(8px);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-#cgl .bar-in{display:flex;align-items:center;gap:12px;min-height:72px}
-#cgl .bar-st{display:flex;gap:6px;padding:4px 2px;overflow-x:auto;scrollbar-width:none;flex:1 1 auto;min-width:0}
+#cgl .bar{position:sticky;top:0;z-index:50;background:var(--navy);box-shadow:0 8px 24px -14px rgba(15,27,45,.6)}
+#cgl .bar-in{display:flex;align-items:center;gap:16px;min-height:62px}
+#cgl .bar-st{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1 1 auto;min-width:0}
 #cgl .bar-st::-webkit-scrollbar{display:none}
-#cgl .bar-st a{flex-shrink:0;display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 15px 0 8px;border-radius:12px;font-size:15.5px;font-weight:700;color:#0B4FC7!important;text-decoration:none!important;white-space:nowrap;background:#EEF4FF;box-shadow:inset 0 0 0 1.5px #C9DBFF;transition:background .15s,color .15s,box-shadow .15s,transform .15s}
-#cgl .bar-st a i{font-style:normal;font-size:13px;font-weight:700;min-width:30px;height:30px;padding:0 6px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:var(--blue);color:#fff}
-#cgl .bar-st a:hover{background:var(--blue);color:#fff!important;box-shadow:0 6px 16px -6px rgba(22,119,255,.6);transform:translateY(-1px)}
-#cgl .bar-st a:hover i{background:#fff;color:var(--blue)}
-#cgl .bar-st a.on{background:var(--blue);color:#fff!important;box-shadow:0 6px 16px -6px rgba(22,119,255,.6)}
-#cgl .bar-st a.on i{background:#fff;color:var(--blue)}
-#cgl .bar-lbl{flex-shrink:0;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
-#cgl .seg{flex-shrink:0;display:flex;align-items:center;gap:4px;padding:4px;border-radius:12px;background:var(--soft)}
-#cgl .seg-l{font-size:13px;color:var(--mut);padding:0 6px 0 8px;white-space:nowrap}
-#cgl .seg button{height:32px;padding:0 11px;border:0;border-radius:9px;background:transparent;font-size:14px;font-weight:700;color:var(--mut);cursor:pointer;white-space:nowrap}
-#cgl .seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(15,27,45,.12)}
+#cgl .bar-st a{flex-shrink:0;display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:600;color:#C9D6E8!important;text-decoration:none!important;white-space:nowrap;transition:background .15s,color .15s}
+#cgl .bar-st a i{font-style:normal;font-size:12px;font-weight:700;min-width:24px;height:20px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,.14);color:#fff}
+#cgl .bar-st a:hover{background:rgba(255,255,255,.08);color:#fff!important}
+#cgl .bar-st a.on{background:rgba(255,255,255,.12);color:#fff!important}
+#cgl .bar-st a.on i{background:var(--blue);color:#fff}
+#cgl .seg{flex-shrink:0;display:flex;align-items:center;gap:4px;padding:4px;border-radius:12px;background:rgba(255,255,255,.08)}
+#cgl .seg-l{font-size:13px;color:#9FB0C8;padding:0 6px 0 8px;white-space:nowrap}
+#cgl .seg button{height:32px;padding:0 13px;border:0;border-radius:9px;background:transparent;font-size:14px;font-weight:700;color:#C9D6E8;cursor:pointer;white-space:nowrap}
+#cgl .seg button:hover{color:#fff}
+#cgl .seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.2)}
 
 /* PICK (filter cards) */
 #cgl .pick{padding:40px 0 8px}
@@ -92,7 +91,7 @@
 #cgl .pk small{font-size:12px;font-weight:600;color:var(--blue);margin-top:2px}
 
 /* STAGES */
-#cgl .stage{padding:56px 0;border-bottom:1px solid var(--line);scroll-margin-top:76px}
+#cgl .stage{padding:56px 0;border-bottom:1px solid var(--line);scroll-margin-top:64px}
 #cgl .stage:nth-of-type(even){background:linear-gradient(180deg,#FAFBFD,#fff)}
 #cgl .st-g{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:44px;align-items:stretch}
 #cgl .st-l{display:flex;flex-direction:column}
@@ -230,9 +229,6 @@
   #cgl .st-img{aspect-ratio:5/2}
   #cgl .seg{justify-content:space-between}
   #cgl .seg-l{display:none}
-  #cgl .bar-lbl{display:none}
-  #cgl .bar-st a{height:40px;font-size:14px;padding:0 14px 0 6px}
-  #cgl .bar-st a i{min-width:26px;height:26px}
   #cgl .seg button{flex:1 1 auto}
   #cgl .stage{padding:36px 0;scroll-margin-top:110px}
   #cgl .stage h2{font-size:27px}
