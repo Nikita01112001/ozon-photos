@@ -125,7 +125,7 @@ window.CGS_CONFIG = {
   match:function(n,a){ if(n.indexOf(a.t)<0) return false; var g=n.match(/\d+(?:\.\d+)?\/\d+/g)||[]; var G=this.G[a.s]; if(/набор|\(/i.test(n)) return g.some(function(x){return G.indexOf(x)>=0;}); return g.length&&G.indexOf(g[0])>=0; },
   sort:function(a,b){ return (/набор/i.test(a)?1:0)-(/набор/i.test(b)?1:0); },
   chips:function(a){ var S=['','I · Грубая','II · Предварит.','III · Тонкая','IV · Финиш. доводка','V · Чистовая','VI · Зеркальная']; return [a.t, S[+a.s]]; },
-  info:function(a){ var P={'1':'/page145206646.html','2':'/page146392126.html','3':'/page147817716.html','4':'/page148783596.html','5':'/page148137386.html','6':'/page149033276.html'}; return {url:P[a.s]}; },
+  info:function(a){ return {url:'/pasta_start#etap-'+a.s}; },
   kp:function(a){ return 'Подбор алмазной пасты: тип '+a.t+', этап '+['','I грубая шлифовка','II предварительная обработка','III тонкая шлифовка','IV финишная доводка','V чистовая полировка','VI зеркальная полировка'][+a.s]+', зерно '+this.G[a.s].join(', ').replace(/\./g,',')+'.'; }
 };
 (function(){
